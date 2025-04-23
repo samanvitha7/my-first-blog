@@ -1,31 +1,22 @@
-<!DOCTYPE html>
-<html>
-  <head>
-    <title>Zomato Foodie Blog</title>
-  </head>
-  <body>
-    <header>
-      <h1><a href="/">Zomato Foodie Blog</a></h1>
-    </header>
+{% extends 'blog/base.html'%}
 
-    <article>
-      <time>Published: April 23, 2025 – 12:30 PM</time>
-      <h2><a href="#">Review: Spice Garden Bistro</a></h2>
-      <p>
-        Had an amazing lunch experience at Spice Garden Bistro! The ambiance was cozy, 
-        and the Paneer Butter Masala was absolutely delicious. The staff was friendly, 
-        and the prices were reasonable. Highly recommend the garlic naan!
-      </p>
-    </article>
+{% block content %}
+    {% for post in posts %}
+        <article class="post">
+            <time class="date">
+                {{ post.published_date }}
+            </time>
+            <h2><a href="{% url 'post_detail' pk=post.pk}">{{ post.title }}</a></h2>  
+                 <!-- this is done to link post's title in post list to post's detail page-->
+                  <!--
+                        {% url 'post_detail' pk=post.pk %} is a Django template tag used to generate a URL dynamically.
+                        'post_detail' refers to the name of a URL pattern defined in your blog/urls.py using name='post_detail'
+                        pk=post.pk passes the primary key of the post object into the URL.
+                        pk stands for primary key, a unique ID for each record.
+                        If you didn’t define one, Django automatically adds an id field as the primary key.
 
-    <article>
-      <time>Published: April 22, 2025 – 7:15 PM</time>
-      <h2><a href="#">New Find: Sushi Bay</a></h2>
-      <p>
-        Sushi Bay just opened near my place and it’s a must-try for sushi lovers! 
-        The Dragon Roll was fresh and beautifully presented. They even have a cute corner 
-        for ramen. Definitely coming back soon.
-      </p>
-    </article>
-  </body>
-</html>
+                  -->
+            <p>{{ post.text|linebreaksbr }}</p>
+        </article>
+    {% endfor %}
+{% endblock %}
